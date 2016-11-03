@@ -1,4 +1,4 @@
-namespace MyExpenses.Web.Migrations
+namespace MyExpenses.Data.EF.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -19,11 +19,10 @@ namespace MyExpenses.Web.Migrations
                     })
                 .PrimaryKey(t => new { t.ExpenseId, t.OwnerId });
 
-            this.Sql(@"CREATE SEQUENCE dbo.ExpensesIds  
-                        START WITH 1
-                        INCREMENT BY 1 ;
-                        GO");
-            
+                this.Sql(@"CREATE SEQUENCE dbo.ExpensesIds  
+                            START WITH 1
+                            INCREMENT BY 1 ;
+                            GO");
         }
         
         public override void Down()
