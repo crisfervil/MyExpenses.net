@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MyExpenses.Web.Models
+namespace MyExpenses.Domain
 {
     public class Expense
     {
@@ -20,18 +23,5 @@ namespace MyExpenses.Web.Models
         [Required]
         public DateTime Date { get; set; }
         public string Description { get; set; }
-    }
-
-    public class MyExpensesDbContext: DbContext
-    {
-        public DbSet<Expense> Expenses { get; set; }
-
-        public int GetNextSequenceValue(string sequenceName)
-        {
-            var rawQuery = Database.SqlQuery<long>($"SELECT NEXT VALUE FOR {sequenceName};");
-            var task = rawQuery.SingleAsync();
-            long nextVal = task.Result;
-            return (int)nextVal;
-        }
     }
 }

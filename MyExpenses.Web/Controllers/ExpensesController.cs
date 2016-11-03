@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+﻿using Microsoft.AspNet.Identity;
+using MyExpenses.Data.EF;
+using MyExpenses.Domain;
+using System;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using MyExpenses.Web.Models;
-using System.Web.Security;
-using Microsoft.AspNet.Identity;
 
 namespace MyExpenses.Web.Controllers
 {
     public class ExpensesController : Controller
     {
-        private MyExpensesDbContext db = new MyExpensesDbContext();
+        private IExpensesDataContext _dataContext = new ExpensesDataContext();
 
         private Guid GetCurrentUserId()
         {
@@ -27,12 +22,8 @@ namespace MyExpenses.Web.Controllers
         public ActionResult Index()
         {
             var currentUserId = GetCurrentUserId();
-
-            var expenses = from exp in db.Expenses
-                           where exp.OwnerId == currentUserId
-                           select exp;
-
-            return View(expenses.ToList());
+            var expenses = _dataContext.GetExpenses(currentUserId);
+            return View(expenses);
         }
 
         // GET: Expenses/Details/5
@@ -43,7 +34,7 @@ namespace MyExpenses.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var currentUserId = GetCurrentUserId();
-            Expense expense = db.Expenses.Find(id,currentUserId);
+            Expense expense = _dataContext.GetExpense(id.Value,currentUserId);
             if (expense == null)
             {
                 return HttpNotFound();
@@ -66,11 +57,8 @@ namespace MyExpenses.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                expense.ExpenseId = db.GetNextSequenceValue("ExpensesIds");
                 expense.OwnerId = GetCurrentUserId();
-
-                db.Expenses.Add(expense);
-                db.SaveChanges();
+                _dataContext.Create(expense);
                 return RedirectToAction("Index");
             }
 
@@ -85,7 +73,7 @@ namespace MyExpenses.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var currentUserId = GetCurrentUserId();
-            Expense expense = db.Expenses.Find(new object[]{id,currentUserId});
+            Expense expense = _dataContext.GetExpense(id.Value, currentUserId);
             if (expense == null)
             {
                 return HttpNotFound();
@@ -102,19 +90,11 @@ namespace MyExpenses.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var currentUserId = GetCurrentUserId();
-                var original = db.Expenses.Find(expense.ExpenseId,currentUserId);
-
-                if (original == null)
+                expense.OwnerId = GetCurrentUserId();
+                var saveOk = _dataContext.Update(expense);
+                if (!saveOk)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                else
-                { 
-                    original.Amount = expense.Amount;
-                    original.Date = expense.Date;
-                    original.Description = expense.Description;
-                    db.SaveChanges();
                 }
 
                 return RedirectToAction("Index");
@@ -130,7 +110,7 @@ namespace MyExpenses.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var currentUserId = GetCurrentUserId();
-            Expense expense = db.Expenses.Find(new object[] { id, currentUserId });
+            Expense expense = _dataContext.GetExpense(id.Value, currentUserId);
             if (expense == null)
             {
                 return HttpNotFound();
@@ -143,10 +123,12 @@ namespace MyExpenses.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var currentUserId = GetCurrentUserId();
-            Expense expense = db.Expenses.Find(new object[] { id, currentUserId });
-            db.Expenses.Remove(expense);
-            db.SaveChanges();
+            var userId = GetCurrentUserId();
+            var deleteOk = _dataContext.Delete(id, userId);
+            if (!deleteOk)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return RedirectToAction("Index");
         }
 
@@ -154,7 +136,7 @@ namespace MyExpenses.Web.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _dataContext.Dispose();
             }
             base.Dispose(disposing);
         }
