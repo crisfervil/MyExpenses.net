@@ -10,6 +10,7 @@ namespace MyExpenses.Web
     {
         protected void Application_Start()
         {
+            DependencyInjectionConfig.Config();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

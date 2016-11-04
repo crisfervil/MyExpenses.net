@@ -11,7 +11,12 @@ namespace MyExpenses.Web.Controllers
     [Authorize]
     public class ExpensesController : Controller
     {
-        private Domain.IExpensesDataContext _dataContext = new ExpensesDataContext();
+        private Domain.IExpensesDataContext _dataContext;
+
+        public ExpensesController(Domain.IExpensesDataContext dataContext)
+        {
+            _dataContext = dataContext;
+        }
 
         private Guid GetCurrentUserId()
         {

@@ -19,10 +19,6 @@ namespace MyExpenses.Web.Controllers
     {
         private ApplicationUserManager _userManager;
 
-        public MeController()
-        {
-        }
-
         public MeController(ApplicationUserManager userManager)
         {
             UserManager = userManager;
