@@ -63,6 +63,8 @@
             };
         }
 
+        document.title = options.name + " - My Expenses";
+
         // Add navigation member to AppViewModel (for example, app.NavigateToHome());
         self["navigateTo" + options.name] = navigator;
     };
