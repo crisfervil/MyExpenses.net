@@ -1,15 +1,17 @@
 ﻿using Microsoft.AspNet.Identity;
 using MyExpenses.Data.EF;
-using MyExpenses.Domain;
+using MyExpenses.Web.Models;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
 
 namespace MyExpenses.Web.Controllers
 {
+    [Authorize]
     public class ExpensesController : Controller
     {
-        private IExpensesDataContext _dataContext = new ExpensesDataContext();
+        private Domain.IExpensesDataContext _dataContext = new ExpensesDataContext();
 
         private Guid GetCurrentUserId()
         {
@@ -18,11 +20,23 @@ namespace MyExpenses.Web.Controllers
             return currentUserId;
         }
 
+        private Expense Convert(Domain.Expense expense)
+        {
+            return new Expense() { Amount=expense.Amount, Date=expense.Date, Description=expense.Description, ExpenseId=expense.ExpenseId };
+        }
+
+        private Domain.Expense Convert(Expense expense)
+        {
+            return new Domain.Expense() { Amount = expense.Amount, Date = expense.Date, Description = expense.Description, ExpenseId = expense.ExpenseId };
+        }
+
         // GET: Expenses
         public ActionResult Index()
         {
+            List<Expense> expenses = null;
             var currentUserId = GetCurrentUserId();
-            var expenses = _dataContext.GetExpenses(currentUserId);
+            var result = _dataContext.GetExpenses(currentUserId);
+            if (result != null) { expenses = result.ConvertAll(Convert); }
             return View(expenses);
         }
 
@@ -34,11 +48,12 @@ namespace MyExpenses.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var currentUserId = GetCurrentUserId();
-            Expense expense = _dataContext.GetExpense(id.Value,currentUserId);
-            if (expense == null)
+            var result = _dataContext.GetExpense(id.Value,currentUserId);
+            if (result == null)
             {
                 return HttpNotFound();
             }
+            var expense = Convert(result);
             return View(expense);
         }
 
@@ -57,11 +72,12 @@ namespace MyExpenses.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                expense.OwnerId = GetCurrentUserId();
-                _dataContext.Create(expense);
+                var createData = Convert(expense);
+                createData.OwnerId = GetCurrentUserId();
+                _dataContext.Create(createData);
                 return RedirectToAction("Index");
             }
-
+            // If there are validation errors, show the page again
             return View(expense);
         }
 
@@ -73,11 +89,12 @@ namespace MyExpenses.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var currentUserId = GetCurrentUserId();
-            Expense expense = _dataContext.GetExpense(id.Value, currentUserId);
-            if (expense == null)
+            var result = _dataContext.GetExpense(id.Value, currentUserId);
+            if (result == null)
             {
                 return HttpNotFound();
             }
+            var expense = Convert(result);
             return View(expense);
         }
 
@@ -90,8 +107,9 @@ namespace MyExpenses.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                expense.OwnerId = GetCurrentUserId();
-                var saveOk = _dataContext.Update(expense);
+                var editData = Convert(expense);
+                editData.OwnerId = GetCurrentUserId();
+                var saveOk = _dataContext.Update(editData);
                 if (!saveOk)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -110,11 +128,12 @@ namespace MyExpenses.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var currentUserId = GetCurrentUserId();
-            Expense expense = _dataContext.GetExpense(id.Value, currentUserId);
-            if (expense == null)
+            var result = _dataContext.GetExpense(id.Value, currentUserId);
+            if (result == null)
             {
                 return HttpNotFound();
             }
+            var expense = Convert(result);
             return View(expense);
         }
 

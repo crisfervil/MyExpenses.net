@@ -1,7 +1,7 @@
 ﻿@model MyExpenses.Web.Models.Expense
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Expense Details";
 }
 
 <h2>Details</h2>
@@ -10,14 +10,6 @@
     <h4>Expense</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.OwnerId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OwnerId)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Amount)
         </dt>
@@ -41,7 +33,6 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
-
     </dl>
 </div>
 <p>
