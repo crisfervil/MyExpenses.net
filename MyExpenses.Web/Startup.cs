@@ -12,6 +12,7 @@ namespace MyExpenses.Web
     {
         public void Configuration(IAppBuilder app)
         {
+            DependencyInjectionConfig.Config(app);
             ConfigureAuth(app);
         }
     }
