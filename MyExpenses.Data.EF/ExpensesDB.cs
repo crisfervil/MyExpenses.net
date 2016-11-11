@@ -1,16 +1,16 @@
 ﻿using MyExpenses.Domain;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyExpenses.Data.EF
 {
     class ExpensesDB: DbContext
     {
         public DbSet<Expense> Expenses { get; set; }
+
+        public ExpensesDB() : base("MyExpenses")
+        {
+
+        }
 
         public int GetNextSequenceValue(string sequenceName)
         {
