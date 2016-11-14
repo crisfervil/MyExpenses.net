@@ -30,8 +30,12 @@ namespace MyExpenses.Web
             config.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
 
             // Configure routes
-            config.Routes.MapHttpRoute("ExpensesGet", "api/expenses", new { controller = "ExpensesRead" });
-            config.Routes.MapHttpRoute("ExpensesGetById", "api/expenses/{id}", new { controller = "ExpensesRead", IDependencyResolver= });
+            config.Routes.MapHttpRoute(
+                name: "ActionApi",
+                routeTemplate: "api/{controller}/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
             //config.Formatters.XmlFormatter.UseXmlSerializer = true;
             //config.Formatters.Remove(config.Formatters.JsonFormatter);
             //config.Formatters.JsonFormatter.UseDataContractJsonSerializer = true;
