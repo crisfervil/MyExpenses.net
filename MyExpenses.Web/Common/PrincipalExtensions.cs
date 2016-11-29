@@ -10,7 +10,7 @@ namespace MyExpenses.Web.Common
     {
         public static MyExpensesUserIdentity GetAppIdentity(this IPrincipal principal)
         {
-            var identity = principal.Identity as MyExpensesUserIdentity;
+            var identity = principal!=null? principal.Identity as MyExpensesUserIdentity:null;
             return identity ?? MyExpensesPrincipal.Anonymous;
         }
     }

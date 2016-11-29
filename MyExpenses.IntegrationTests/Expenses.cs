@@ -22,6 +22,8 @@ namespace MyExpenses.IntegrationTests
         {
             _host = WebApp.Start<Startup>(url:_baseAddress);
             _client = new HttpClient() { BaseAddress = new Uri(_baseAddress) };
+            AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "db"));
+            if (!System.IO.Directory.Exists("db")) System.IO.Directory.CreateDirectory("db");
         }
 
         [TestCleanup]
