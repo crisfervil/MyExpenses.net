@@ -12,8 +12,9 @@ namespace MyExpenses.Data.EF
     {
         ExpensesDB _db = new ExpensesDB();
 
-        public void Create(Expense expense)
+        public void Create(Expense expense,Guid userId)
         {
+            expense.OwnerId = userId;
             expense.ExpenseId = _db.GetNextSequenceValue("ExpensesIds");
             _db.Expenses.Add(expense);
             _db.SaveChanges();

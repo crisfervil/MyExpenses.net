@@ -151,7 +151,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\ExpensesReadController.cs" />
+    <Compile Include="Api\ExpensesController.cs" />
     <Compile Include="Common\MyExpensesPrincipal.cs" />
     <Compile Include="Common\MyExpensesUserIdentity.cs" />
     <Compile Include="Common\PrincipalExtensions.cs" />

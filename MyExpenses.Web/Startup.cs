@@ -1,15 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
+using MyExpenses.Data.EF;
+using MyExpenses.Domain;
+using Newtonsoft.Json;
 using Owin;
-using System.Web.Http;
 using SimpleInjector;
 using SimpleInjector.Integration.Web;
-using MyExpenses.Domain;
-using MyExpenses.Data.EF;
-using System.Web.Mvc;
-using SimpleInjector.Integration.Web.Mvc;
 using SimpleInjector.Integration.WebApi;
+using System.Web.Http;
 
 [assembly: OwinStartup(typeof(MyExpenses.Web.Startup))]
 
@@ -21,22 +18,27 @@ namespace MyExpenses.Web
         {
             HttpConfiguration config = new HttpConfiguration();
 
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
+
             // Configure Dependency injection
             var container = new Container();
-            container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
+            container.Options.DefaultScopedLifestyle = new WebApiRequestLifestyle();
 
             container.Register<IExpensesDataContext, ExpensesDataContext>(Lifestyle.Scoped);
+            container.RegisterWebApiControllers(config);
+
             container.Verify();
+
             config.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
 
-            // Configure routes
-            config.Routes.MapHttpRoute("ExpensesGet", "api/expenses", new { controller = "ExpensesRead" });
-            config.Routes.MapHttpRoute("ExpensesGetById", "api/expenses/{id}", new { controller = "ExpensesRead", IDependencyResolver= });
-            //config.Formatters.XmlFormatter.UseXmlSerializer = true;
-            //config.Formatters.Remove(config.Formatters.JsonFormatter);
-            //config.Formatters.JsonFormatter.UseDataContractJsonSerializer = true;
-
             app.UseWebApi(config);
+
+            // Configure routes
+            config.MapHttpAttributeRoutes();
+
+            JsonSerializerSettings jsonSetting = new JsonSerializerSettings();
+            jsonSetting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            config.Formatters.JsonFormatter.SerializerSettings = jsonSetting;
         }
     }
 }

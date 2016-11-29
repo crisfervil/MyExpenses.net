@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{018F0330-0C81-4C41-A1EF-EB9069997B0C}"
 	ProjectSection(SolutionItems) = preProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpenses.Data.EF", "MyExpenses.Data.EF\MyExpenses.Data.EF.csproj", "{5FFC4597-E193-4F84-98B7-E4DDA0209E21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpenses.Web", "MyExpenses.Web\MyExpenses.Web.csproj", "{4EE5BDBF-DD8D-4884-8430-8D40BF0F8FDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExpenses.IntegrationTests", "MyExpenses.IntegrationTests\MyExpenses.IntegrationTests.csproj", "{B1A0160E-845D-4160-A124-3B933005790F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{4EE5BDBF-DD8D-4884-8430-8D40BF0F8FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EE5BDBF-DD8D-4884-8430-8D40BF0F8FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EE5BDBF-DD8D-4884-8430-8D40BF0F8FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1A0160E-845D-4160-A124-3B933005790F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1A0160E-845D-4160-A124-3B933005790F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1A0160E-845D-4160-A124-3B933005790F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1A0160E-845D-4160-A124-3B933005790F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

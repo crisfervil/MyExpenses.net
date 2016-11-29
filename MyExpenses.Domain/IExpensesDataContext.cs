@@ -11,7 +11,7 @@ namespace MyExpenses.Domain
         List<Expense> GetExpenses(Guid userId);
         Expense GetExpense(int id, Guid userId);
         bool Delete(int id, Guid userId);
-        void Create(Expense expense);
+        void Create(Expense expense, Guid userId);
         bool Update(Expense expense);
     }
 }
