@@ -27,20 +27,12 @@ namespace MyExpenses.Data.EF
             return _db.Expenses.Find(id, userId);
         }
 
-        public bool Delete(int id, Guid userId)
+        public void Delete(int id, Guid userId)
         {
             var expense = GetExpense(id, userId);
-            if (expense == null)
-            {
-                return false;
-            }
-            else
-            {
-                _db.Expenses.Remove(expense);
-                _db.SaveChanges();
-            }
-            // Everything went OK
-            return true;
+            if (expense == null) throw new RecordNotFoundException();
+            _db.Expenses.Remove(expense);
+            _db.SaveChanges();
         }
 
         public List<Expense> GetExpenses(Guid userId)

@@ -92,7 +92,6 @@ namespace MyExpenses.IntegrationTests
             var response = await _client.PostAsync("api/expenses/new", content);
             var expenseId = int.Parse(await response.Content.ReadAsStringAsync());
 
-
             var updatedExpense = new
             {
                 ExpenseId=expenseId,
@@ -114,5 +113,30 @@ namespace MyExpenses.IntegrationTests
             Assert.IsTrue(JToken.DeepEquals(JObject.FromObject(updatedExpense), serverVersionExpense));
 
         }
+
+        [TestMethod]
+        public async Task Can_Delete_Expense()
+        {
+            var expense = new
+            {
+                Amount = 100,
+                Date = DateTime.Today,
+                Description = "This is a Test"
+            };
+            var jsonExpense = JsonConvert.SerializeObject(expense);
+
+            var content = new StringContent(jsonExpense, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("api/expenses/new", content);
+            var expenseId = int.Parse(await response.Content.ReadAsStringAsync());
+
+            // Try to delete the expense
+            response = await _client.DeleteAsync($"api/expenses/{expenseId}");
+            Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
+
+            // Now, make sure the expense doesn't exists any more
+            response = await _client.GetAsync($"api/expenses/{expenseId}");
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
     }
 }

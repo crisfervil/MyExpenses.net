@@ -1,7 +1,7 @@
 ﻿using MyExpenses.Domain;
 using MyExpenses.Web.Common;
-using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Web.Http;
 
 namespace MyExpenses.Web.Api
@@ -24,7 +24,9 @@ namespace MyExpenses.Web.Api
         [Route("api/expenses/{id}")]
         public Expense GetExpense(int id)
         {
-            return _dataContext.GetExpense(id,User.GetAppIdentity().Id);
+            var exp = _dataContext.GetExpense(id,User.GetAppIdentity().Id);
+            if(exp==null) throw new HttpResponseException(HttpStatusCode.NotFound);
+            return exp;
         }
 
         [HttpPost]
@@ -39,6 +41,13 @@ namespace MyExpenses.Web.Api
         public void Update(Expense expense)
         {
             _dataContext.Update(expense, User.GetAppIdentity().Id);
+        }
+
+        [HttpDelete]
+        [Route("api/expenses/{id}")]
+        public void Delete(int id)
+        {
+            _dataContext.Delete(id, User.GetAppIdentity().Id);
         }
 
     }

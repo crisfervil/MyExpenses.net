@@ -7,7 +7,7 @@ namespace MyExpenses.Domain
     {
         List<Expense> GetExpenses(Guid userId);
         Expense GetExpense(int id, Guid userId);
-        bool Delete(int id, Guid userId);
+        void Delete(int id, Guid userId);
         int Create(Expense expense, Guid userId);
         void Update(Expense expense, Guid userId);
     }
