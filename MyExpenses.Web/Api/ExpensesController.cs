@@ -29,9 +29,17 @@ namespace MyExpenses.Web.Api
 
         [HttpPost]
         [Route("api/expenses/new")]
-        public void Create(Expense expense)
+        public int Create(Expense expense)
         {
-            _dataContext.Create(expense, User.GetAppIdentity().Id);
+            return _dataContext.Create(expense, User.GetAppIdentity().Id);
         }
+
+        [HttpPost]
+        [Route("api/expenses/update")]
+        public void Update(Expense expense)
+        {
+            _dataContext.Update(expense, User.GetAppIdentity().Id);
+        }
+
     }
 }

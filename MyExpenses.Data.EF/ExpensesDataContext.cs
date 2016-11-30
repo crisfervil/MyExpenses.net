@@ -9,12 +9,17 @@ namespace MyExpenses.Data.EF
     {
         ExpensesDB _db = new ExpensesDB();
 
-        public void Create(Expense expense,Guid userId)
+        /// <summary>
+        /// Creates an Expense record and returns the Id of the generated expense
+        /// </summary>
+        public int Create(Expense expense,Guid userId)
         {
+            var expenseId = _db.GetNextSequenceValue("ExpensesIds");
             expense.OwnerId = userId;
-            expense.ExpenseId = _db.GetNextSequenceValue("ExpensesIds");
+            expense.ExpenseId = expenseId;
             _db.Expenses.Add(expense);
             _db.SaveChanges();
+            return expenseId;
         }
 
         public Expense GetExpense(int id, Guid userId)
@@ -46,22 +51,15 @@ namespace MyExpenses.Data.EF
             return expenses.ToList();
         }
 
-        public bool Update(Expense expense)
+        public void Update(Expense expense, Guid userId)
         {
-            var original = GetExpense(expense.ExpenseId, expense.OwnerId);
-            if (original == null)
-            {
-                return false;
-            }
-            else
-            {
-                original.Amount = expense.Amount;
-                original.Date = expense.Date;
-                original.Description = expense.Description;
-                _db.SaveChanges();
-            }
-            // Everything went OK
-            return true;
+            var original = GetExpense(expense.ExpenseId, userId);
+            if (original == null) throw new RecordNotFoundException();
+            original.OwnerId = userId;
+            original.Amount = expense.Amount;
+            original.Date = expense.Date;
+            original.Description = expense.Description;
+            _db.SaveChanges();
         }
 
         public void Dispose()
