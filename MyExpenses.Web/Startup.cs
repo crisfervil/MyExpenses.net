@@ -7,9 +7,9 @@ using SimpleInjector;
 using SimpleInjector.Integration.Web;
 using SimpleInjector.Integration.WebApi;
 using System.Web.Http;
+using MyExpenses.Web.Common;
 
 [assembly: OwinStartup(typeof(MyExpenses.Web.Startup))]
-
 namespace MyExpenses.Web
 {
     public class Startup
@@ -32,6 +32,7 @@ namespace MyExpenses.Web
             config.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
 
             app.UseWebApi(config);
+            app.UseOAuth();
 
             // Configure routes
             config.MapHttpAttributeRoutes();
