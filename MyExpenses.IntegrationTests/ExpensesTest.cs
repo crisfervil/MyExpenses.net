@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
+using System.Collections.Generic;
 
 namespace MyExpenses.IntegrationTests
 {
@@ -18,6 +20,20 @@ namespace MyExpenses.IntegrationTests
         private HttpClient _client;
         private string _baseAddress = "http://localhost:5555";
 
+        private async Task Authenticate()
+        {
+            var tokenRequestContent = new Dictionary<string, string>() { { "grant_type", "password" }, { "username", "admin" }, { "password", "admin" } };
+            var content = new FormUrlEncodedContent(tokenRequestContent);
+            var response = await _client.PostAsync("api/token", content);
+
+
+            var responseObject = JObject.Parse(await response.Content.ReadAsStringAsync());
+            string authenticationToken = (string)responseObject["access_token"];
+
+            // generate the authentication token
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationToken);
+        }
+
         [TestInitialize]
         public void Init()
         {
@@ -25,7 +41,11 @@ namespace MyExpenses.IntegrationTests
             _client = new HttpClient() { BaseAddress = new Uri(_baseAddress) };
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "db"));
             if (!System.IO.Directory.Exists("db")) System.IO.Directory.CreateDirectory("db");
+
+            Task.Run(() => Authenticate()).Wait();
         }
+
+
 
         [TestCleanup]
         public void Cleanup()

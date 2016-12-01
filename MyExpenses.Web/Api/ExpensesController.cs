@@ -6,6 +6,7 @@ using System.Web.Http;
 
 namespace MyExpenses.Web.Api
 {
+    [Authorize]
     public class ExpensesController : ApiController
     {
         private IExpensesDataContext _dataContext;

@@ -25,14 +25,14 @@ namespace MyExpenses.Web.Api
                 var userId = Guid.NewGuid();
                 if (user == "admin" && password == "admin")
                 {
-                    var identity = new ClaimsIdentity(Common.Authentication.OAuthBearerOptions.AuthenticationType);
+                    var identity = new ClaimsIdentity(Common.AuthenticationConfig.OAuthBearerOptions.AuthenticationType);
                     identity.AddClaim(new Claim(ClaimTypes.Name, user));
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId.ToString()));
                     AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
                     var currentUtc = new SystemClock().UtcNow;
                     ticket.Properties.IssuedUtc = currentUtc;
                     ticket.Properties.ExpiresUtc = currentUtc.Add(TimeSpan.FromMinutes(30));
-                    accessToken = Common.Authentication.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
+                    accessToken = Common.AuthenticationConfig.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
                 }
             }
 
