@@ -30,9 +30,9 @@ namespace MyExpenses.Web
             container.Verify();
 
             config.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
-
-            app.UseWebApi(config);
+            //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseOAuth();
+            app.UseWebApi(config);
 
             // Configure routes
             config.MapHttpAttributeRoutes();

@@ -17,6 +17,9 @@ namespace MyExpenses.Web.Common
                 TokenEndpointPath = new PathString("/api/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = new MyAuthorizationServerProvider()
+#if DEBUG
+                ,ApplicationCanDisplayErrors=true
+#endif
             };
 
             OAuthBearerOptions = new OAuthBearerAuthenticationOptions()
