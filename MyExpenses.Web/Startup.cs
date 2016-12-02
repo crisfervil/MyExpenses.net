@@ -24,6 +24,7 @@ namespace MyExpenses.Web
             var container = new Container();
             container.Options.DefaultScopedLifestyle = new WebApiRequestLifestyle();
 
+            container.Register<IAuthRepository, AuthRepository>(Lifestyle.Scoped);
             container.Register<IExpensesDataContext, ExpensesDataContext>(Lifestyle.Scoped);
             container.RegisterWebApiControllers(config);
 
@@ -34,7 +35,7 @@ namespace MyExpenses.Web
             app.UseOAuth();
             app.UseWebApi(config);
 
-            // Configure routes
+            // Configure routes (The routes are going to be defined in the controllers as attributes)
             config.MapHttpAttributeRoutes();
 
             JsonSerializerSettings jsonSetting = new JsonSerializerSettings();

@@ -195,11 +195,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\ExpensesController.cs" />
+    <Compile Include="Common\AuthContext.cs" />
+    <Compile Include="Common\AuthRepository.cs" />
     <Compile Include="Common\MyExpensesPrincipal.cs" />
     <Compile Include="Common\MyExpensesUserIdentity.cs" />
     <Compile Include="Common\AuthenticationConfig.cs" />
     <Compile Include="Common\PrincipalExtensions.cs" />
     <Compile Include="Common\MyAuthorizationServerProvider.cs" />
+    <Compile Include="Api\AccountController.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
