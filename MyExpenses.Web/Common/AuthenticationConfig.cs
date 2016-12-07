@@ -29,7 +29,7 @@ namespace MyExpenses.Web.Common
 
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
 
-            //This will used the HTTP header: "Authorization"      Value: "Bearer 1234123412341234asdfasdfasdfasdf"
+            //This will used the HTTP header:"Authorization" Value:"Bearer 1234123412341234asdfasdfasdfasdf"
             app.UseOAuthBearerAuthentication(OAuthBearerOptions);
 
         }
