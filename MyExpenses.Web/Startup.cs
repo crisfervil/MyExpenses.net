@@ -24,8 +24,8 @@ namespace MyExpenses.Web
             var container = new Container();
             container.Options.DefaultScopedLifestyle = new WebApiRequestLifestyle();
 
-            container.Register<IAuthRepository, AuthRepository>(Lifestyle.Scoped);
             container.Register<IExpensesDataContext, ExpensesDataContext>(Lifestyle.Scoped);
+            container.Register<IAuthRepository, AuthRepository>(Lifestyle.Scoped);
             container.RegisterWebApiControllers(config);
 
             container.Verify();

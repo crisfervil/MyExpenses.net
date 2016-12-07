@@ -20,7 +20,7 @@ namespace MyExpenses.IntegrationTests
         private string _baseAddress = "http://localhost:5555";
         private bool _authenticate = false;
         private string _testUserName = "admin";
-        private string _testUserPassword = "admin";
+        private string _testUserPassword = "admin1";
 
         public TestBase(bool authenticate)
         {
@@ -40,13 +40,14 @@ namespace MyExpenses.IntegrationTests
             {
                 await CreateUser(_testUserName, _testUserPassword);
                 authenticationToken = await GetToken(_testUserName, _testUserPassword);
+                if (authenticationToken == null) throw new Exception("Authentication Failed!");
             }
 
             // generate the authentication token
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authenticationToken);
         }
 
-        private async Task<string> GetToken(string user, string password)
+        internal async Task<string> GetToken(string user, string password)
         {
             var tokenRequestContent = new Dictionary<string, string>() { { "grant_type", "password" }, { "username", user }, { "password", password } };
             var content = new FormUrlEncodedContent(tokenRequestContent);

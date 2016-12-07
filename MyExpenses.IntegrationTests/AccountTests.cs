@@ -17,12 +17,13 @@ namespace MyExpenses.IntegrationTests
         }
 
         [TestMethod]
-        public async Task CanRegisterAUSer()
+        public async Task Can_Register_a_User_and_get_authentication_token()
         {
+            var userName = $"TestUser{new Random().Next(int.MaxValue)}";
             var pwd = Guid.NewGuid().ToString();
             var newUser = new
             {
-                UserName = $"TestUser{new Random().Next(int.MaxValue)}",
+                UserName = userName,
                 Password = pwd,
                 ConfirmPassword = pwd
             };
@@ -32,6 +33,10 @@ namespace MyExpenses.IntegrationTests
             var response = await Client.PostAsync("api/Account/Register", content);
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            var token = base.GetToken(userName, pwd);
+            Assert.IsNotNull(token);
+
         }
 
     }
