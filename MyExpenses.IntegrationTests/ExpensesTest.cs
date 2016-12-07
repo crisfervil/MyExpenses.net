@@ -38,7 +38,7 @@ namespace MyExpenses.IntegrationTests
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var result = JArray.Parse(await response.Content.ReadAsStringAsync());
-            Assert.IsTrue(result.Count>100);
+            Assert.IsTrue(result.Count>=100);
 
         }
 

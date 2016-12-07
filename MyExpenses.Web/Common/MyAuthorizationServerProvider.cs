@@ -33,9 +33,8 @@ namespace MyExpenses.Web.Common
                 else
                 {
                     var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-                    identity.AddClaim(new Claim("sub", context.UserName));
-                    // Add additional values as needed
-                    //identity.AddClaim(new Claim("role", "user"));
+                    identity.AddClaim(new Claim("userName", context.UserName));
+                    identity.AddClaim(new Claim("userId", user.Id));
                     context.Validated(identity);
                 }
             }

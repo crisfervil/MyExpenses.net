@@ -1,4 +1,6 @@
-﻿using System.Security.Principal;
+﻿using System;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace MyExpenses.Web.Common
 {
@@ -6,8 +8,20 @@ namespace MyExpenses.Web.Common
     {
         public static MyExpensesUserIdentity GetAppIdentity(this IPrincipal principal)
         {
-            var identity = principal!=null? principal.Identity as MyExpensesUserIdentity:null;
-            return identity ?? MyExpensesPrincipal.Anonymous;
+            Guid? userId=null;
+            string userName=string.Empty;
+            bool isAuthenticated = false;
+            var identity = principal!=null? principal.Identity as ClaimsIdentity : null;
+            if (identity != null)
+            {
+                isAuthenticated = true;
+                var nameClaim = identity.FindFirst(x => x.Type == "userName");
+                userName = nameClaim != null ? nameClaim.Value : null;
+                var idClaim = identity.FindFirst(x => x.Type == "userId");
+                Guid parsedGuid;
+                if (idClaim != null) if(Guid.TryParse(idClaim.Value, out parsedGuid)) userId=parsedGuid;
+            }
+            return new MyExpensesUserIdentity(userId,userName,isAuthenticated);
         }
     }
 }
