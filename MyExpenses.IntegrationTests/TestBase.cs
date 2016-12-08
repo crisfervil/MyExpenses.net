@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -75,10 +76,13 @@ namespace MyExpenses.IntegrationTests
         [TestInitialize]
         public void Init()
         {
+            // Prepare directory structure
+            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "db"));
+            if (!Directory.Exists("db")) Directory.CreateDirectory("db");
+            if (!Directory.Exists("Public")) Directory.CreateDirectory("Public");
+
             _host = WebApp.Start<Startup>(url: _baseAddress);
             _client = new HttpClient() { BaseAddress = new Uri(_baseAddress) };
-            AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "db"));
-            if (!System.IO.Directory.Exists("db")) System.IO.Directory.CreateDirectory("db");
 
             if (_authenticate)
             {

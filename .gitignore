@@ -243,3 +243,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+/MyExpenses.Web/Public/app/*.js
+/MyExpenses.Web/Public/app/*.js.map
