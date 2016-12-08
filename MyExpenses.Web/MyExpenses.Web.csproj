@@ -193,6 +193,10 @@
     </Content>
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
+    <Content Include="webpack.config.js" />
+    <Content Include="webpack\helpers.js" />
+    <Content Include="webpack\webpack.common.js" />
+    <Content Include="webpack\webpack.dev.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -244,6 +248,8 @@
     <TypeScriptCompile Include="Public\app\app.component.ts" />
     <TypeScriptCompile Include="Public\app\app.module.ts" />
     <TypeScriptCompile Include="Public\app\main.ts" />
+    <TypeScriptCompile Include="Public\app\polyfills.ts" />
+    <TypeScriptCompile Include="Public\app\vendor.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
