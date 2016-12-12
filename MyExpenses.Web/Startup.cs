@@ -43,7 +43,7 @@ namespace MyExpenses.Web
 #if DEBUG
                 EnableDirectoryBrowsing=true,
 #endif
-                FileSystem=new PhysicalFileSystem(@".\Public")
+                FileSystem=new PhysicalFileSystem(@".\dist")
             };
             app.UseFileServer(staticFilesOptions);
 
