@@ -194,6 +194,8 @@
     <Content Include="package.json" />
     <Content Include="Public\app\app.component.css" />
     <Content Include="Public\app\app.component.html" />
+    <Content Include="Public\app\dashboard.component.css" />
+    <Content Include="Public\app\dashboard.component.html" />
     <Content Include="Public\images\angular.png" />
     <Content Include="tsconfig.json" />
     <Content Include="webpack.config.js" />
@@ -252,6 +254,9 @@
     <TypeScriptCompile Include="Public\app\app.component.spec.ts" />
     <TypeScriptCompile Include="Public\app\app.component.ts" />
     <TypeScriptCompile Include="Public\app\app.module.ts" />
+    <TypeScriptCompile Include="Public\app\dashboard.component.ts" />
+    <TypeScriptCompile Include="Public\app\expense.ts" />
+    <TypeScriptCompile Include="Public\app\expenses.service.ts" />
     <TypeScriptCompile Include="Public\main.ts" />
     <TypeScriptCompile Include="Public\polyfills.ts" />
     <TypeScriptCompile Include="Public\vendor.ts" />

@@ -5,4 +5,6 @@ import './../styles/styles.css';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent { }
+export class AppComponent {
+    title= "My Expenses";
+}

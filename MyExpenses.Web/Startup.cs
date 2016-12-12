@@ -42,8 +42,10 @@ namespace MyExpenses.Web
             var staticFilesOptions = new FileServerOptions() {
 #if DEBUG
                 EnableDirectoryBrowsing=true,
+                RequestPath= new PathString("/web"),
+                
 #endif
-                FileSystem=new PhysicalFileSystem(@".\dist")
+                FileSystem=new PhysicalFileSystem(@".\web")
             };
             app.UseFileServer(staticFilesOptions);
 

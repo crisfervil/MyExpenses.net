@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --inline --progress --port 8080",
+    "start": "webpack-dev-server --inline --progress --port 55267",
     "test": "karma start",
-    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
+    "build-dev": "rimraf web && webpack --progress --profile --bail",
+    "build": "rimraf web && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Cristhian Fernandez",
+  "license": "MIT",
   "dependencies": {
     "@angular/common": "~2.3.0",
     "@angular/compiler": "~2.3.0",
