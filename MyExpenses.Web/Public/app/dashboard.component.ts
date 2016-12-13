@@ -4,7 +4,7 @@ import { Expense }        from './expense';
 import { ExpensesService } from './expenses.service';
 
 @Component({
-    moduleId: module.id,
+    moduleId: module.id+"",
     selector: 'my-dashboard',
     templateUrl: 'dashboard.component.html',
     styleUrls: ['dashboard.component.css']

@@ -4,24 +4,32 @@ import { FormsModule }    from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RouterModule }   from '@angular/router';
 import { DashboardComponent }   from './dashboard.component';
-
-RouterModule.forRoot([
-    {
-        path: 'dashboard',
-        component: DashboardComponent
-    }
-])
-
+import { LoginComponent }   from './login.component';
+import { ExpensesService }   from './expenses.service';
+import { HttpModule }    from '@angular/http';
 
 @NgModule({
     imports: [
         BrowserModule,
-        FormsModule
+        FormsModule,
+        HttpModule,
+        RouterModule.forRoot([
+            {
+                path: 'dashboard',
+                component: DashboardComponent
+            },
+            {
+                path: 'login',
+                component: LoginComponent
+            }
+        ])
     ],
     declarations: [
         AppComponent,
-        DashboardComponent
+        DashboardComponent, 
+        LoginComponent
     ],
+    providers: [ExpensesService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

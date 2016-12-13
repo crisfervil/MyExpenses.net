@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --inline --progress --port 55267",
     "test": "karma start",
-    "build-dev": "rimraf web && webpack --progress --profile --bail",
+    "build-dev": "rimraf web && webpack --watch --progress --profile --bail",
     "build": "rimraf web && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
   "author": "Cristhian Fernandez",
